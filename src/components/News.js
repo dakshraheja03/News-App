@@ -1,21 +1,29 @@
-import React from 'react'
+import React,{useState, useEffect} from 'react'
 import NewsItem from './NewsItem'
 
 export default function News() {
-    let text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
+    const [data, setdata] = useState([])
+    const getApiData = async () => {
+        const response = await fetch(
+          "https://newsapi.org/v2/top-headlines?country=us&apiKey=39cda8a8d8ba46e49b3d796b9ea90348"
+        ).then((response) => response.json());
+        setdata(response);
+      };
+      useEffect(() => {
+        getApiData();
+        }, [])
   return (
-        <div className="container">
+    <>
+    <h1 className='my-2 mx-2'>News- Top Headlines</h1>
+        <div className="container text-center">
             <div className="row">
-                <div className="col my-4">
-                <NewsItem title="First News" context={text} />
-                </div>
-                <div className="col my-4">
-                <NewsItem title="Second News" context={text}/>
-                </div>
-                <div className="col my-4">
-                <NewsItem title="Third News" context={text}/>
-                </div>
+            {data.articles && data.articles.map((element)=>{
+                return <div className="col-md-4 my-4" key={element.url} >
+                            <NewsItem title={element.title} context={element.description} url={element.urlToImage} newsUrl={element.url} />
+                        </div>
+            })}
             </div>
         </div>
+    </>
   )
 }
