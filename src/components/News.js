@@ -9,7 +9,7 @@ export default function News(props) {
     const getApiData = async () => {
         setload(true)
         const response = await fetch(
-          `https://newsapi.org/v2/top-headlines?country=in&apiKey=b9bc9141a1ef4e2aa6e74cbe80cfb9fc&category=${props.category}&page=${page}&pageSize=${props.pageSize}`
+          `https://newsapi.org/v2/top-headlines?country=in&apiKey=f79f876e7c3d4af78edfed63a80df42b&category=${props.category}&page=${page}&pageSize=${props.pageSize}`
         ).then((response) => response.json());
         setdata(response);
         setload(false)
