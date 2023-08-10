@@ -9,7 +9,7 @@ export default function News(props) {
     const getApiData = async () => {
         setload(true)
         const response = await fetch(
-          `https://newsapi.org/v2/top-headlines?country=us&apiKey=b9bc9141a1ef4e2aa6e74cbe80cfb9fc&page=${page}&pageSize=${props.pageSize}`
+          `https://newsapi.org/v2/top-headlines?country=in&apiKey=b9bc9141a1ef4e2aa6e74cbe80cfb9fc&category=${props.category}&page=${page}&pageSize=${props.pageSize}`
         ).then((response) => response.json());
         setdata(response);
         setload(false)
@@ -18,7 +18,7 @@ export default function News(props) {
         window.scrollTo(0, 0)
         getApiData();
          // eslint-disable-next-line
-        },[page])
+        },[page,document.location.href])
     
         const handlePrev=async ()=>{
             setpage(page-1)
@@ -29,15 +29,15 @@ export default function News(props) {
             document.body.style.backgroundColor="black"
   return (
     <>
-    <h1 className='my-2 mx-2 text-center text-white'>News- Top Headlines</h1>
+    <h1 className='my-4 text-center text-white'>News- Top Headlines</h1>
     <div className='text-center' style={{height:"30px",marginTop:"15px"}}>
             {load && <Spinner/>}
     </div>
-        <div className="container text-center mx-5">
+        <div className="container text-center">
             <div className="row">
             {!load && data.articles && data.articles.map((element)=>{
                 return <div className="col-md-4 my-4" key={element.url} >
-                            <NewsItem title={element.title} context={element.description} url={element.urlToImage} newsUrl={element.url} />
+                            <NewsItem title={element.title} context={element.description} url={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
                         </div>
             })}
             </div>
